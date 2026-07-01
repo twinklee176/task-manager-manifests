@@ -1,0 +1,32 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: task-manager-ingress
+  namespace: task-manager
+
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/group.name: service-group
+
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-south-1:796093524638:certificate/cb4ea96e-a951-4e6d-8d02-d1ee69b10adc
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
+
+  labels:
+    app: task-manager
+
+spec:
+  ingressClassName: alb
+
+  rules:
+    - host: task.twinkledevops.xyz
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: service-task-manager
+                port:
+                  number: 80
