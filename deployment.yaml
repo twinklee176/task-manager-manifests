@@ -1,9 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: task-manager
+  name: task-manager-deployment
+  namespace: task-manager
+
 spec:
-  replicas: 2
+  replicas: 1
+
   selector:
     matchLabels:
       app: task-manager
@@ -16,10 +19,7 @@ spec:
     spec:
       containers:
       - name: task-manager
-
         image: 796093524638.dkr.ecr.ap-south-1.amazonaws.com/twinkle-cicd:1
-
         imagePullPolicy: Always
-
         ports:
         - containerPort: 80
